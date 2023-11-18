@@ -33,3 +33,64 @@ const addMatch = () => {
 
   matchNumber++;
 };
+
+// action identifiers
+
+const INCREMENT = "increment";
+const DECREMENT = "decrement";
+
+// action creators
+
+const increment = (value) => {
+  return { type: INCREMENT, payload: value };
+};
+
+const decrement = (value) => {
+  return { type: DECREMENT, payload: value };
+};
+
+// initial state
+const initialState = {
+  value: 0,
+};
+
+// create reducer
+const counterReducer = (state = initialState, action) => {
+  if (action.type === INCREMENT) {
+    return {
+      ...state,
+      value: state.value + action.payload,
+    };
+  } else if (action.type === DECREMENT) {
+    return {
+      ...state,
+      value: state.value - action.payload,
+    };
+  } else {
+    return state;
+  }
+};
+
+// create store
+const store = createStore(counterReducer);
+
+// render
+const render = () => {
+  const state = store.getState();
+  counterEl.innerText = state.value.toString();
+};
+
+// render UI library
+render();
+
+// subscribe store
+store.subscribe(render);
+
+// button events listeners
+incrementEl.addEventListener("click", () => {
+  store.dispatch(increment(3));
+});
+
+decrementEl.addEventListener("click", () => {
+  store.dispatch(decrement(2));
+});
